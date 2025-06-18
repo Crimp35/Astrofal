@@ -54,11 +54,11 @@ class LoginScreen extends StatelessWidget {
                 GradientButton(label: 'E-posta ile kayıt ol', onPressed: () {}),
                 if (Platform.isAndroid) ...[
                   const SizedBox(height: 8),
-                  GradientButton(label: 'Gmail ile kayıt ol', onPressed: () {}),
+                  GradientButton(label: 'Google ile Kayıt Ol', onPressed: () {}),
                 ],
                 if (Platform.isIOS) ...[
                   const SizedBox(height: 8),
-                  GradientButton(label: 'iCloud ile kayıt ol', onPressed: () {}),
+                  GradientButton(label: 'Apple ile devam et', onPressed: () {}),
                 ],
                 const SizedBox(height: 24),
                 const Disclaimer(),

@@ -13,7 +13,7 @@ class Disclaimer extends StatelessWidget {
         'kullanici sorumludur. Gerekli durumlarda profesyonel destek almanizi '
         'oneririz.',
         textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 12, color: Colors.white70),
+        style: const TextStyle(fontSize: 11, color: Colors.white60),
       ),
     );
   }
