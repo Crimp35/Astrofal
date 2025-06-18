@@ -18,7 +18,7 @@ class AstrofalApp extends StatelessWidget {
       theme: base.copyWith(
         primaryColor: Colors.purple,
         scaffoldBackgroundColor: Colors.black,
-        textTheme: GoogleFonts.nunitoTextTheme(base.textTheme).apply(bodyColor: Colors.white),
+        textTheme: GoogleFonts.poppinsTextTheme(base.textTheme).apply(bodyColor: Colors.white),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(

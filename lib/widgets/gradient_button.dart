@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
 
 class GradientButton extends StatefulWidget {
-  final String? label;
-  final Widget? child;
+  final String label;
   final VoidCallback onPressed;
-  const GradientButton({Key? key, this.label, this.child, required this.onPressed}) : super(key: key);
+  final Gradient? gradient;
+  final Color? backgroundColor;
+  final Color textColor;
+  final Widget? icon;
+
+  const GradientButton({
+    Key? key,
+    required this.label,
+    required this.onPressed,
+    this.gradient,
+    this.backgroundColor,
+    this.textColor = Colors.white,
+    this.icon,
+  }) : super(key: key);
 
   @override
   State<GradientButton> createState() => _GradientButtonState();
@@ -31,11 +43,11 @@ class _GradientButtonState extends State<GradientButton> {
         elevation: 4,
         shadowColor: Colors.black,
         child: Ink(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFF9c27b0), Color(0xFFe91e63)],
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(30)),
+          decoration: BoxDecoration(
+            gradient: widget.gradient ??
+                const LinearGradient(colors: [Color(0xFF9c27b0), Color(0xFFe91e63)]),
+            color: widget.gradient == null ? widget.backgroundColor : null,
+            borderRadius: const BorderRadius.all(Radius.circular(30)),
           ),
           child: InkWell(
             borderRadius: BorderRadius.circular(30),
@@ -44,9 +56,18 @@ class _GradientButtonState extends State<GradientButton> {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
               child: Center(
-                child: widget.child ??
-                    Text(widget.label ?? '',
-                        style: const TextStyle(color: Colors.white)),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (widget.icon != null) ...[
+                      widget.icon!,
+                      const SizedBox(width: 8),
+                    ],
+                    Text(widget.label,
+                        style: TextStyle(color: widget.textColor)),
+                  ],
+                ),
               ),
             ),
           ),

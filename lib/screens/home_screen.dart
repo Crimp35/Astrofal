@@ -23,6 +23,8 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  _buildHeader(),
+                  const SizedBox(height: 8),
                   _buildWelcomeSection(),
                   const SizedBox(height: 16),
                   _buildFortuneGrid(context),
@@ -30,8 +32,6 @@ class HomeScreen extends StatelessWidget {
                   _buildDailyRow(),
                   const SizedBox(height: 16),
                   _buildActivityGrid(),
-                  const SizedBox(height: 16),
-                  _buildUserArea(),
                   const SizedBox(height: 16),
                   _buildCommunityCard(),
                 ],
@@ -52,6 +52,22 @@ class HomeScreen extends StatelessWidget {
       border: Border.all(color: Colors.white),
       boxShadow: const [
         BoxShadow(color: Colors.black45, blurRadius: 4, offset: Offset(0, 2)),
+      ],
+    );
+  }
+
+  Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        IconButton(
+          icon: const Icon(Icons.settings, color: Colors.white),
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: const Icon(Icons.person, color: Colors.white),
+          onPressed: () {},
+        ),
       ],
     );
   }
@@ -90,24 +106,28 @@ class HomeScreen extends StatelessWidget {
           title: 'Kahve Falı',
           subtitle: 'Fincanını yükle, gizemini keşfet!',
           screen: const CoffeeFortuneScreen(),
+          icon: Icons.local_cafe,
         ),
         _fortuneCard(
           context,
           title: 'Tarot Falı',
           subtitle: 'Kartlarını seç, geleceğini gör!',
           screen: const TarotFortuneScreen(),
+          icon: Icons.style,
         ),
         _fortuneCard(
           context,
           title: 'Numeroloji Falı',
           subtitle: 'Sayıların sırrını keşfet!',
           screen: const NumerologyFortuneScreen(),
+          icon: Icons.numbers,
         ),
         _fortuneCard(
           context,
           title: 'Soru-Cevap Falı',
           subtitle: 'Kalbindekileri sor, Astrofal cevaplasın!',
           screen: const QuestionFortuneScreen(),
+          icon: Icons.question_answer,
         ),
       ],
     );
@@ -116,7 +136,8 @@ class HomeScreen extends StatelessWidget {
   Widget _fortuneCard(BuildContext context,
       {required String title,
       required String subtitle,
-      required Widget screen}) {
+      required Widget screen,
+      required IconData icon}) {
     return GestureDetector(
       onTap: () => Navigator.of(context).push(_createRoute(screen)),
       child: Container(
@@ -125,6 +146,8 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Icon(icon, size: 36, color: Colors.white),
+            const SizedBox(height: 8),
             Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 4),
             Text(
@@ -140,11 +163,11 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildDailyRow() {
     final cards = [
-      _dailyCard('Bugünün Falı', 'Bugünün Falına Bak!'),
-      _dailyCard('Günlük Astro Rehber', 'Burcuna özel ipucu'),
-      _dailyCard('Günün Şansı', 'Şanslı sayın: 7'),
-      _dailyCard('Günün Tarot Kartı', 'Kart yorumun burada'),
-      _dailyCard('Haftanın En Güzel Fincanı', 'Haftanın vitrini'),
+      _dailyCard('Bugünün Falı', 'Bugünün Falına Bak!', Icons.today),
+      _dailyCard('Günlük Astro Rehber', 'Burcuna özel ipucu', Icons.wb_sunny),
+      _dailyCard('Günün Şansı', 'Şanslı sayın: 7', Icons.star),
+      _dailyCard('Günün Tarot Kartı', 'Kart yorumun burada', Icons.auto_awesome),
+      _dailyCard('Haftanın En Güzel Fincanı', 'Haftanın vitrini', Icons.coffee),
     ];
     return SizedBox(
       height: 120,
@@ -157,7 +180,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _dailyCard(String title, String content) {
+  Widget _dailyCard(String title, String content, IconData icon) {
     return Container(
       width: 160,
       padding: const EdgeInsets.all(16),
@@ -165,6 +188,8 @@ class HomeScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Icon(icon, color: Colors.white),
+          const SizedBox(height: 4),
           Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
           const SizedBox(height: 4),
           Text(content, style: const TextStyle(fontSize: 12, color: Colors.white70)),
@@ -175,8 +200,10 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildActivityGrid() {
     final activities = [
-      _activityCard('Haftalık Astro Quiz', 'Doğru cevapla rozet kazan'),
-      _activityCard('Astro Görevler', 'Bugün kahve falı baktır, ipucu kazan!'),
+      _activityCard('Haftalık Astro Quiz', 'Doğru cevapla rozet kazan', Icons.quiz),
+      _activityCard('Astro Görevler', 'Bugün kahve falı baktır, ipucu kazan!', Icons.task),
+      _activityCard('Fal Günlüğüm', 'Geçmiş fallarına ulaş', Icons.book),
+      _activityCard('Fal Hatırlatıcısı', 'Bildirimlerini ayarla', Icons.alarm),
     ];
     return GridView.count(
       crossAxisCount: 2,
@@ -188,38 +215,15 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _activityCard(String title, String content) {
+  Widget _activityCard(String title, String content, IconData icon) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: _boxDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+          Icon(icon, color: Colors.white),
           const SizedBox(height: 4),
-          Text(content, style: const TextStyle(fontSize: 12, color: Colors.white70)),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildUserArea() {
-    return Column(
-      children: [
-        _userCard('Fal Günlüğüm', 'Geçmiş fallarına ulaş'),
-        const SizedBox(height: 8),
-        _userCard('Fal Hatırlatıcısı', 'Bildirimlerini ayarla'),
-      ],
-    );
-  }
-
-  Widget _userCard(String title, String content) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: _boxDecoration(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
           Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
           const SizedBox(height: 4),
           Text(content, style: const TextStyle(fontSize: 12, color: Colors.white70)),
