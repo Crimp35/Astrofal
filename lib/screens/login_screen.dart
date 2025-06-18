@@ -33,13 +33,13 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                const SizedBox(height: 40),
-                GradientButton(
-                  label: 'Giriş yap',
-                  onPressed: () {
-                    Navigator.of(context).push(_createRoute(const HomeScreen()));
-                  },
-                ),
+                  const SizedBox(height: 40),
+                  GradientButton(
+                    label: 'Giriş yap',
+                    onPressed: () {
+                      Navigator.of(context).push(_createRoute(const HomeScreen()));
+                    },
+                  ),
                 const SizedBox(height: 8),
                 GradientButton(
                   label: 'Misafir girişi',
@@ -67,8 +67,7 @@ class LoginScreen extends StatelessWidget {
           ),
         ),
       ),
-    ),
-  );
+    );
   }
 }
 
