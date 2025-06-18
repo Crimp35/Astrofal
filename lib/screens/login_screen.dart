@@ -68,6 +68,8 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+    // Close the Scaffold widget opened at build
+    );
   }
 }
 
