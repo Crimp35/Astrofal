@@ -37,38 +37,42 @@ class LoginScreen extends StatelessWidget {
                   GradientButton(
                     label: 'Giriş yap',
                     onPressed: () {
-                      Navigator.of(context).push(_createRoute(const HomeScreen()));
+                      Navigator.of(context)
+                          .push(_createRoute(const HomeScreen()));
                     },
                   ),
-                const SizedBox(height: 8),
-                GradientButton(
-                  label: 'Misafir girişi',
-                  onPressed: () {
-                    Navigator.of(context).push(_createRoute(const HomeScreen()));
-                  },
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  child: Divider(),
-                ),
-                GradientButton(label: 'E-posta ile kayıt ol', onPressed: () {}),
-                if (Platform.isAndroid) ...[
                   const SizedBox(height: 8),
-                  GradientButton(label: 'Google ile Kayıt Ol', onPressed: () {}),
+                  GradientButton(
+                    label: 'Misafir girişi',
+                    onPressed: () {
+                      Navigator.of(context)
+                          .push(_createRoute(const HomeScreen()));
+                    },
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Divider(),
+                  ),
+                  GradientButton(
+                      label: 'E-posta ile kayıt ol', onPressed: () {}),
+                  if (Platform.isAndroid) ...[
+                    const SizedBox(height: 8),
+                    GradientButton(
+                        label: 'Google ile Kayıt Ol', onPressed: () {}),
+                  ],
+                  if (Platform.isIOS) ...[
+                    const SizedBox(height: 8),
+                    GradientButton(
+                        label: 'Apple ile devam et', onPressed: () {}),
+                  ],
+                  const SizedBox(height: 24),
+                  const Disclaimer(),
                 ],
-                if (Platform.isIOS) ...[
-                  const SizedBox(height: 8),
-                  GradientButton(label: 'Apple ile devam et', onPressed: () {}),
-                ],
-                const SizedBox(height: 24),
-                const Disclaimer(),
-              ],
+              ),
             ),
           ),
         ),
       ),
-    );
-    // Close the Scaffold widget opened at build
     );
   }
 }
