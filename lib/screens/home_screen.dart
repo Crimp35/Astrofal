@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../widgets/fortune_card.dart';
+import '../widgets/feature_card.dart';
+import '../widgets/welcome_banner.dart';
 import 'coffee_fortune_screen.dart';
 import 'tarot_fortune_screen.dart';
 import 'numerology_fortune_screen.dart';
@@ -46,6 +48,8 @@ class _HomeScreenState extends State<HomeScreen> {
             _buildWelcomeSection(),
             const SizedBox(height: 16),
             _buildFortuneGrid(context),
+            const SizedBox(height: 16),
+            _buildFeatureGrid(),
             const SizedBox(height: 12),
             _buildShowMoreButton(),
           ],
@@ -77,26 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildWelcomeSection() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        gradient: const LinearGradient(colors: [Color(0xFF9c27b0), Color(0xFFe91e63)]),
-        border: Border.all(color: Colors.white),
-        boxShadow: const [
-          BoxShadow(color: Colors.black54, blurRadius: 4, offset: Offset(0, 2)),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('İyi akşamlar $_userName',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
-          const SizedBox(height: 4),
-          const Text('Bugün iç sesini dinlemeye ne dersin?', style: TextStyle(color: Colors.white70)),
-        ],
-      ),
-    );
+    return const WelcomeBanner(userName: _userName);
   }
 
   Widget _buildFortuneGrid(BuildContext context) {
@@ -133,6 +118,36 @@ class _HomeScreenState extends State<HomeScreen> {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       children: cards,
+    );
+  }
+
+  Widget _buildFeatureGrid() {
+    const items = [
+      ['Bugünün Falı', 'Günlük rastgele fal', 'https://via.placeholder.com/300?text=Daily'],
+      ['Günlük Astro Rehber', 'Burçlara göre ipuçları', 'https://via.placeholder.com/300?text=Guide'],
+      ['Günün Şansı', 'Şanslı sayı, renk', 'https://via.placeholder.com/300?text=Luck'],
+      ['Günün Tarot Kartı', 'Bugüne özel kart', 'https://via.placeholder.com/300?text=Tarot'],
+      ['Haftalık Astro Quiz', 'Quiz çöz, ödül kazan', 'https://via.placeholder.com/300?text=Quiz'],
+      ['Astro Görevler', 'Görevleri tamamla', 'https://via.placeholder.com/300?text=Mission'],
+      ['Fal Günlüğüm', 'Önceki fallar', 'https://via.placeholder.com/300?text=History'],
+      ['Fal Hatırlatıcısı', 'Bildirimler', 'https://via.placeholder.com/300?text=Reminder'],
+      ['Astrofal Topluluğu', 'Yorum paylaş', 'https://via.placeholder.com/300?text=Community'],
+    ];
+    return GridView.count(
+      crossAxisCount: 2,
+      crossAxisSpacing: 8,
+      mainAxisSpacing: 8,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      children: [
+        for (var item in items)
+          FeatureCard(
+            title: item[0],
+            subtitle: item[1],
+            imageUrl: item[2],
+            onTap: () {},
+          ),
+      ],
     );
   }
 

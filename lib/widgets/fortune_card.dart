@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class FortuneCard extends StatelessWidget {
+class FortuneCard extends StatefulWidget {
   final String title;
   final String subtitle;
   final String imageUrl;
@@ -14,10 +14,36 @@ class FortuneCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<FortuneCard> createState() => _FortuneCardState();
+}
+
+class _FortuneCardState extends State<FortuneCard>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    )..forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
+    return ScaleTransition(
+      scale: Tween(begin: 0.9, end: 1.0)
+          .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut)),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: Colors.white),
@@ -73,6 +99,7 @@ class FortuneCard extends StatelessWidget {
           ],
         ),
       ),
+    );
     );
   }
 }
