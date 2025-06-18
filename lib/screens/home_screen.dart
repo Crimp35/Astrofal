@@ -45,7 +45,8 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ),
+  );
   }
 
   Widget _buildFortuneButton(BuildContext context,
