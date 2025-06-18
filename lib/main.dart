@@ -16,8 +16,8 @@ class AstrofalApp extends StatelessWidget {
     return MaterialApp(
       title: 'Astrofal',
       theme: base.copyWith(
-        primaryColor: Colors.purple,
-        scaffoldBackgroundColor: Colors.black,
+        primaryColor: const Color(0xFFFFD700),
+        scaffoldBackgroundColor: const Color(0xFF121212),
         textTheme: GoogleFonts.poppinsTextTheme(base.textTheme).apply(bodyColor: Colors.white),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(

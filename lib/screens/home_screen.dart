@@ -1,69 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../widgets/gradient_background.dart';
+import '../widgets/fortune_card.dart';
 import 'coffee_fortune_screen.dart';
 import 'tarot_fortune_screen.dart';
 import 'numerology_fortune_screen.dart';
 import 'question_fortune_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   static const _userName = 'Batıhan';
+  int _selectedIndex = 0;
+
+  void _onNavTapped(int index) {
+    setState(() => _selectedIndex = index);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GradientBackground(
-        child: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: DefaultTextStyle(
-              style: GoogleFonts.poppins(color: Colors.white),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildHeader(),
-                  const SizedBox(height: 8),
-                  _buildWelcomeSection(),
-                  const SizedBox(height: 16),
-                  _buildFortuneGrid(context),
-                  const SizedBox(height: 16),
-                  _buildDailyRow(),
-                  const SizedBox(height: 16),
-                  _buildActivityGrid(),
-                  const SizedBox(height: 16),
-                  _buildCommunityCard(),
-                ],
-              ),
-            ),
-          ),
+      backgroundColor: const Color(0xFF121212),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onNavTapped,
+        backgroundColor: Colors.black,
+        selectedItemColor: const Color(0xFFFFD700),
+        unselectedItemColor: Colors.white70,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Ana Sayfa'),
+          BottomNavigationBarItem(icon: Icon(Icons.mail_outline), label: 'Gelen Kutusu'),
+          BottomNavigationBarItem(icon: Icon(Icons.group_outlined), label: 'Topluluk'),
+        ],
+      ),
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            _buildTopNavigation(),
+            const SizedBox(height: 12),
+            _buildWelcomeSection(),
+            const SizedBox(height: 16),
+            _buildFortuneGrid(context),
+            const SizedBox(height: 12),
+            _buildShowMoreButton(),
+          ],
         ),
       ),
     );
   }
 
-  BoxDecoration _boxDecoration({double radius = 20}) {
-    return BoxDecoration(
-      borderRadius: BorderRadius.circular(radius),
-      gradient: const LinearGradient(
-        colors: [Color(0xFF9c27b0), Color(0xFFe91e63)],
-      ),
-      border: Border.all(color: Colors.white),
-      boxShadow: const [
-        BoxShadow(color: Colors.black45, blurRadius: 4, offset: Offset(0, 2)),
-      ],
-    );
-  }
-
-  Widget _buildHeader() {
+  Widget _buildTopNavigation() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         IconButton(
-          icon: const Icon(Icons.settings, color: Colors.white),
+          icon: const Icon(Icons.monetization_on, color: Colors.white),
           onPressed: () {},
         ),
+        Text('Astrofal',
+            style: GoogleFonts.poppins(
+              color: const Color(0xFFFFD700),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            )),
         IconButton(
           icon: const Icon(Icons.person, color: Colors.white),
           onPressed: () {},
@@ -75,135 +79,52 @@ class HomeScreen extends StatelessWidget {
   Widget _buildWelcomeSection() {
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: _boxDecoration(),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        gradient: const LinearGradient(colors: [Color(0xFF9c27b0), Color(0xFFe91e63)]),
+        border: Border.all(color: Colors.white),
+        boxShadow: const [
+          BoxShadow(color: Colors.black54, blurRadius: 4, offset: Offset(0, 2)),
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text(
-            'Hoş geldin Batıhan 🌟',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 4),
-          Text(
-            'Bugün hislerini dinle ve iç sesine güven!',
-            style: TextStyle(color: Colors.white70),
-          ),
+        children: [
+          Text('İyi akşamlar $_userName',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+          const SizedBox(height: 4),
+          const Text('Bugün iç sesini dinlemeye ne dersin?', style: TextStyle(color: Colors.white70)),
         ],
       ),
     );
   }
 
   Widget _buildFortuneGrid(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 2,
-      crossAxisSpacing: 8,
-      mainAxisSpacing: 8,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      children: [
-        _fortuneCard(
-          context,
-          title: 'Kahve Falı',
-          subtitle: 'Fincanını yükle, gizemini keşfet!',
-          screen: const CoffeeFortuneScreen(),
-          icon: Icons.local_cafe,
-        ),
-        _fortuneCard(
-          context,
-          title: 'Tarot Falı',
-          subtitle: 'Kartlarını seç, geleceğini gör!',
-          screen: const TarotFortuneScreen(),
-          icon: Icons.style,
-        ),
-        _fortuneCard(
-          context,
-          title: 'Numeroloji Falı',
-          subtitle: 'Sayıların sırrını keşfet!',
-          screen: const NumerologyFortuneScreen(),
-          icon: Icons.numbers,
-        ),
-        _fortuneCard(
-          context,
-          title: 'Soru-Cevap Falı',
-          subtitle: 'Kalbindekileri sor, Astrofal cevaplasın!',
-          screen: const QuestionFortuneScreen(),
-          icon: Icons.question_answer,
-        ),
-      ],
-    );
-  }
-
-  Widget _fortuneCard(BuildContext context,
-      {required String title,
-      required String subtitle,
-      required Widget screen,
-      required IconData icon}) {
-    return GestureDetector(
-      onTap: () => Navigator.of(context).push(_createRoute(screen)),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: _boxDecoration(radius: 24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 36, color: Colors.white),
-            const SizedBox(height: 8),
-            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 4),
-            Text(
-              subtitle,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 12, color: Colors.white70),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDailyRow() {
     final cards = [
-      _dailyCard('Bugünün Falı', 'Bugünün Falına Bak!', Icons.today),
-      _dailyCard('Günlük Astro Rehber', 'Burcuna özel ipucu', Icons.wb_sunny),
-      _dailyCard('Günün Şansı', 'Şanslı sayın: 7', Icons.star),
-      _dailyCard('Günün Tarot Kartı', 'Kart yorumun burada', Icons.auto_awesome),
-      _dailyCard('Haftanın En Güzel Fincanı', 'Haftanın vitrini', Icons.coffee),
-    ];
-    return SizedBox(
-      height: 120,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (_, i) => cards[i],
-        separatorBuilder: (_, __) => const SizedBox(width: 8),
-        itemCount: cards.length,
+      FortuneCard(
+        title: 'Kahve Falı',
+        subtitle: 'Fincanını yükle!',
+        imageUrl: 'https://via.placeholder.com/300x200?text=Kahve',
+        onTap: () => Navigator.of(context).push(_createRoute(const CoffeeFortuneScreen())),
       ),
-    );
-  }
-
-  Widget _dailyCard(String title, String content, IconData icon) {
-    return Container(
-      width: 160,
-      padding: const EdgeInsets.all(16),
-      decoration: _boxDecoration(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, color: Colors.white),
-          const SizedBox(height: 4),
-          Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-          const SizedBox(height: 4),
-          Text(content, style: const TextStyle(fontSize: 12, color: Colors.white70)),
-        ],
+      FortuneCard(
+        title: 'Tarot Falı',
+        subtitle: 'Kart seç',
+        imageUrl: 'https://via.placeholder.com/300x200?text=Tarot',
+        onTap: () => Navigator.of(context).push(_createRoute(const TarotFortuneScreen())),
       ),
-    );
-  }
-
-  Widget _buildActivityGrid() {
-    final activities = [
-      _activityCard('Haftalık Astro Quiz', 'Doğru cevapla rozet kazan', Icons.quiz),
-      _activityCard('Astro Görevler', 'Bugün kahve falı baktır, ipucu kazan!', Icons.task),
-      _activityCard('Fal Günlüğüm', 'Geçmiş fallarına ulaş', Icons.book),
-      _activityCard('Fal Hatırlatıcısı', 'Bildirimlerini ayarla', Icons.alarm),
+      FortuneCard(
+        title: 'Numeroloji',
+        subtitle: 'Doğum bilgilerini gir',
+        imageUrl: 'https://via.placeholder.com/300x200?text=Numeroloji',
+        onTap: () => Navigator.of(context).push(_createRoute(const NumerologyFortuneScreen())),
+      ),
+      FortuneCard(
+        title: 'Soru-Cevap Falı',
+        subtitle: 'Merak ettiğini sor',
+        imageUrl: 'https://via.placeholder.com/300x200?text=Soru',
+        onTap: () => Navigator.of(context).push(_createRoute(const QuestionFortuneScreen())),
+      ),
     ];
     return GridView.count(
       crossAxisCount: 2,
@@ -211,42 +132,14 @@ class HomeScreen extends StatelessWidget {
       mainAxisSpacing: 8,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      children: activities,
+      children: cards,
     );
   }
 
-  Widget _activityCard(String title, String content, IconData icon) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: _boxDecoration(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, color: Colors.white),
-          const SizedBox(height: 4),
-          Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-          const SizedBox(height: 4),
-          Text(content, style: const TextStyle(fontSize: 12, color: Colors.white70)),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCommunityCard() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: _boxDecoration(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text('Astrofal Topluluğu', style: TextStyle(fontWeight: FontWeight.bold)),
-          SizedBox(height: 4),
-          Text(
-            'Yorumlarını paylaş, diğer kullanıcılarla etkileşim kur.',
-            style: TextStyle(fontSize: 12, color: Colors.white70),
-          ),
-        ],
-      ),
+  Widget _buildShowMoreButton() {
+    return TextButton(
+      onPressed: () {},
+      child: const Text('Daha Fazla Göster', style: TextStyle(color: Colors.white)),
     );
   }
 }
