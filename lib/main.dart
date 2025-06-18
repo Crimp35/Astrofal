@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
+import 'screens/login_screen.dart';
 
 void main() {
   runApp(const AstrofalApp());
@@ -15,7 +16,7 @@ class AstrofalApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: const HomeScreen(),
+      home: const LoginScreen(),
     );
   }
 }
