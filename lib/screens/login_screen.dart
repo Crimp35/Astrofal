@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import '../widgets/disclaimer.dart';
+import '../widgets/gradient_background.dart';
+import '../widgets/gradient_button.dart';
 import 'home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -10,61 +12,53 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  children: const [
-                    Icon(Icons.stars, size: 80, color: Colors.purple),
-                    SizedBox(height: 8),
-                    Text(
-                      'Astrofal',
-                      style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
+        child: GradientBackground(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    children: const [
+                      Icon(Icons.stars, size: 80, color: Colors.pinkAccent),
+                      SizedBox(height: 8),
+                      Text(
+                        'Astrofal',
+                        style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
                 const SizedBox(height: 40),
-                ElevatedButton(
+                GradientButton(
+                  label: 'Giriş yap',
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const HomeScreen()),
-                    );
+                    Navigator.of(context).push(_createRoute(const HomeScreen()));
                   },
-                  child: const Text('Giriş yap'),
                 ),
                 const SizedBox(height: 8),
-                ElevatedButton(
+                GradientButton(
+                  label: 'Misafir girişi',
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const HomeScreen()),
-                    );
+                    Navigator.of(context).push(_createRoute(const HomeScreen()));
                   },
-                  child: const Text('Misafir girişi'),
                 ),
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 16),
                   child: Divider(),
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('E-posta ile kayıt ol'),
-                ),
+                GradientButton(label: 'E-posta ile kayıt ol', onPressed: () {}),
                 if (Platform.isAndroid) ...[
                   const SizedBox(height: 8),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: const Text('Gmail ile kayıt ol'),
-                  ),
+                  GradientButton(label: 'Gmail ile kayıt ol', onPressed: () {}),
                 ],
                 if (Platform.isIOS) ...[
                   const SizedBox(height: 8),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: const Text('iCloud ile kayıt ol'),
-                  ),
+                  GradientButton(label: 'iCloud ile kayıt ol', onPressed: () {}),
                 ],
                 const SizedBox(height: 24),
                 const Disclaimer(),
@@ -75,4 +69,13 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+Route _createRoute(Widget page) {
+  return PageRouteBuilder(
+    pageBuilder: (_, __, ___) => page,
+    transitionsBuilder: (_, animation, __, child) {
+      return FadeTransition(opacity: animation, child: child);
+    },
+  );
 }

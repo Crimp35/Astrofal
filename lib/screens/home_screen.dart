@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../widgets/gradient_background.dart';
+import '../widgets/gradient_button.dart';
 import 'coffee_fortune_screen.dart';
 import 'tarot_fortune_screen.dart';
 import 'numerology_fortune_screen.dart';
@@ -13,9 +15,10 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Astrofal'),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
+      body: GradientBackground(
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
           _buildFortuneButton(
             context,
             title: 'Kahve Falı',
@@ -49,21 +52,30 @@ class HomeScreen extends StatelessWidget {
       {required String title,
       required String subtitle,
       required Widget screen}) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: ListTile(
-        title: Text(title),
-        subtitle: Text(subtitle),
-        trailing: const Icon(Icons.chevron_right),
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => screen),
-          );
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: GradientButton(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(title, style: const TextStyle(color: Colors.white, fontSize: 18)),
+            const SizedBox(height: 4),
+            Text(subtitle, style: const TextStyle(color: Colors.white70, fontSize: 12)),
+          ],
+        ),
+        onPressed: () {
+          Navigator.of(context).push(_createRoute(screen));
         },
       ),
     );
   }
+}
+
+Route _createRoute(Widget page) {
+  return PageRouteBuilder(
+    pageBuilder: (_, __, ___) => page,
+    transitionsBuilder: (_, animation, __, child) {
+      return FadeTransition(opacity: animation, child: child);
+    },
+  );
 }
